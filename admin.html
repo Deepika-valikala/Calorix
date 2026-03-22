@@ -1,0 +1,145 @@
+<h2>Admin Login</h2>
+
+<input type="text" id="username" placeholder="Username">
+<input type="password" id="password" placeholder="Password">
+
+<button onclick="adminLogin()">Login</button>
+<button onclick="logout()">Logout</button>
+
+<hr>
+
+<h2>Admin Review Panel</h2>
+<div id="reviews"></div>
+
+<script>
+function logout(){
+
+localStorage.removeItem("adminToken");
+
+alert("Logged out");
+
+location.reload();
+
+}
+async function approveReview(id){
+
+const token = localStorage.getItem("adminToken");
+
+await fetch(`http://localhost:3000/admin/review/${id}/approve`,{
+method:"PUT",
+headers:{
+Authorization:`Bearer ${token}`
+}
+});
+
+loadReviews();
+
+}
+async function adminLogin(){
+
+const res = await fetch("http://localhost:3000/admin/login",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+username:document.getElementById("username").value,
+password:document.getElementById("password").value
+})
+});
+
+if(!res.ok){
+alert("Invalid username or password");
+return;
+}
+
+const data = await res.json();
+
+localStorage.setItem("adminToken",data.token);
+
+alert("Login successful");
+
+loadReviews();
+
+}
+
+
+async function loadReviews(){
+
+const token = localStorage.getItem("adminToken");
+
+const res = await fetch("http://localhost:3000/admin/reviews",{
+headers:{
+Authorization:`Bearer ${token}`
+}
+});
+
+if(res.status === 401 || res.status === 403){
+alert("Session expired. Please login again.");
+
+localStorage.removeItem("adminToken");
+
+location.reload();
+return;
+}
+
+const reviews = await res.json();
+
+const container = document.getElementById("reviews");
+container.innerHTML="";
+
+reviews.forEach(r=>{
+
+container.innerHTML += `
+<div style="border:1px solid #ccc;padding:10px;margin:10px">
+
+<b>${r.name}</b> ⭐${r.rating}<br>
+Order ID: ${r.orderCode || "N/A"}<br>
+${r.comment}<br>
+
+${r.verified ? "✔ Verified Purchase" : ""}
+
+<br><br>
+
+<button onclick="approveReview('${r._id}')">Approve</button>
+<button onclick="verifyReview('${r._id}')">Verify</button>
+<button onclick="deleteReview('${r._id}')">Delete</button>
+
+</div>
+`;
+
+});
+
+}
+
+
+async function deleteReview(id){
+
+const token = localStorage.getItem("adminToken");
+
+await fetch(`http://localhost:3000/admin/review/${id}`,{
+method:"DELETE",
+headers:{
+Authorization:`Bearer ${token}`
+}
+});
+
+loadReviews();
+
+}
+
+
+async function verifyReview(id){
+
+const token = localStorage.getItem("adminToken");
+
+await fetch(`http://localhost:3000/admin/review/${id}/verify`,{
+method:"PUT",
+headers:{
+Authorization:`Bearer ${token}`
+}
+});
+
+loadReviews();
+
+}
+
+</script>

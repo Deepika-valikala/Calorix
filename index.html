@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Calorix Heat Pack</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<nav class="navbar navbar-expand-lg navbar-dark custom-navbar">
+
+<div class="container">
+
+<a class="navbar-brand fw-bold" href="#">CALORIX</a>
+
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+<span class="navbar-toggler-icon"></span>
+</button>
+
+<div class="collapse navbar-collapse" id="navbarNav">
+
+<ul class="navbar-nav ms-auto align-items-center">
+
+<li class="nav-item">
+<a class="nav-link" href="#">Home</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="#features">Features</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="#reviews">Reviews (<span id="reviewCount">0</span>)</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="#faq">FAQ</a>
+</li>
+
+<a href="#" onclick="orderNow()" class="order-btn-nav">
+<img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" class="nav-wa-icon">
+Order
+</a>
+
+</ul>
+
+</div>
+</div>
+</nav>
+
+
+<!-- OFFER BAR -->
+
+<div class="offer-bar">
+<div class="offer-text">
+🔥 20% OFF on Calorix Heat Pack | Free Shipping | Limited Time Offer 🔥
+</div>
+</div>
+
+
+<!-- SLIDER -->
+
+<div id="heroSlider" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="3000">
+
+<div class="carousel-indicators">
+<button type="button" data-bs-target="#heroSlider" data-bs-slide-to="0" class="active"></button>
+<button type="button" data-bs-target="#heroSlider" data-bs-slide-to="1"></button>
+<button type="button" data-bs-target="#heroSlider" data-bs-slide-to="2"></button>
+</div>
+
+<div class="carousel-inner">
+
+<div class="carousel-item active">
+<img src="images/doctor.jpg" class="d-block w-100">
+</div>
+
+<div class="carousel-item">
+<img src="images/alexa.jpg" class="d-block w-100">
+</div>
+
+<div class="carousel-item">
+<img src="images/product.jpg" class="d-block w-100">
+</div>
+<button class="carousel-control-prev" type="button" data-bs-target="#heroSlider" data-bs-slide="prev">
+<span class="arrow-left"></span>
+</button>
+
+<button class="carousel-control-next" type="button" data-bs-target="#heroSlider" data-bs-slide="next">
+<span class="arrow-right"></span>
+</button>
+
+</div>
+</div>
+
+
+<!-- HERO TEXT -->
+
+<div class="hero-text">
+
+<h1>Targeted Heat. Proven Relief.</h1>
+
+<p>Muscle Pain Relief | Physiotherapist Trusted</p>
+
+<div class="price">MRP ₹220</div>
+
+<p class="tax">(inclusive of All Taxes)</p>
+
+<a href="#" onclick="orderNow()" class="whatsapp-order">
+<img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" class="wa-icon">
+Order on WhatsApp
+</a>
+
+</div>
+
+
+<!-- FEATURES -->
+<section id="features" class="container my-5 text-center">
+
+<h2 class="mb-5">Why Choose Calorix?</h2>
+
+<div class="row g-4">
+
+<div class="col-md-4">
+    <div class="feature-box">
+        <h3>Pain Relief</h3>
+        <p>Provides deep heat therapy for muscle pain.</p>
+    </div>
+</div>
+
+<div class="col-md-4">
+    <div class="feature-box">
+        <h3>Safe Home Use</h3>
+        <p>Easy to use heating pad for everyday comfort.</p>
+    </div>
+</div>
+
+<div class="col-md-4">
+    <div class="feature-box">
+        <h3>Doctor Recommended</h3>
+        <p>Trusted by physiotherapists.</p>
+    </div>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- REVIEWS -->
+
+<section id="reviews" class="text-center py-5 ">
+
+<h2 class="mb-4">Customer Reviews</h2>
+
+<h3>Customer Photos</h3>
+
+<div id="photo-gallery" class="photo-gallery"></div>
+
+<button id="seePhotosBtn" class="see-photos-btn" onclick="showAllPhotos()">
+See All Photos
+</button>
+
+<hr>
+<div class="rating-summary">
+<h3 id="avgRating">⭐ 0 / 5</h3>
+<p id="totalReviews">0 reviews</p>
+</div>
+
+<div class="rating-breakdown">
+
+<div class="rating-row">
+<span>5⭐</span>
+<div class="bar"><div id="bar5"></div></div>
+<span id="percent5">0%</span>
+</div>
+
+<div class="rating-row">
+<span>4⭐</span>
+<div class="bar"><div id="bar4"></div></div>
+<span id="percent4">0%</span>
+</div>
+
+<div class="rating-row">
+<span>3⭐</span>
+<div class="bar"><div id="bar3"></div></div>
+<span id="percent3">0%</span>
+</div>
+
+<div class="rating-row">
+<span>2⭐</span>
+<div class="bar"><div id="bar2"></div></div>
+<span id="percent2">0%</span>
+</div>
+
+<div class="rating-row">
+<span>1⭐</span>
+<div class="bar"><div id="bar1"></div></div>
+<span id="percent1">0%</span>
+</div>
+
+</div>
+
+<button class="btn btn-warning mb-3" onclick="toggleReviewForm()">Write a Review</button>
+
+<form id="reviewForm" style="display:none; max-width:500px; margin:auto;">
+<input type="text" id="reviewName" placeholder="Your Name" required class="form-control mb-2">
+<input type="text" id="orderCode" placeholder="Order ID" class="form-control mb-2">
+<input type="text" id="title" placeholder="Review title" required class="form-control mb-2">
+
+<textarea id="comment" placeholder="Write your review..." required class="form-control mb-2"></textarea>
+
+<div class="star-rating mb-2">
+<span class="star" data-value="1">★</span>
+<span class="star" data-value="2">★</span>
+<span class="star" data-value="3">★</span>
+<span class="star" data-value="4">★</span>
+<span class="star" data-value="5">★</span>
+</div>
+
+<input type="hidden" id="rating" value="0">
+
+<input type="file" id="media" class="form-control mb-3">
+
+<button type="submit" class="btn btn-primary">Post Review</button>
+
+</form>
+
+<hr>
+
+<div id="review-list" class="review-container" ></div>
+<button class="btn btn-secondary mt-3" onclick="showAllReviews()" id="showReviewsBtn" data-open="false">
+See All Reviews
+</button>
+</section>
+
+<!--<section class="order-section">
+
+<h2>🔥 Limited Stock Available</h2>
+<p>Order your Calorix Heat Pack today</p>
+
+<a href="#" onclick="orderNow()" class="whatsapp-order">
+Order on WhatsApp
+</a>
+
+</section>-->
+
+<!-- WHATSAPP -->
+<section class="faq" id="faq">
+
+<div class="faq-container">
+
+<h2>Frequently Asked Questions</h2>
+
+<div class="faq-item">
+<b>Q: How long does it take to heat?</b>
+<p>A: Around 3–5 minutes.</p>
+</div>
+
+<div class="faq-item">
+<b>Q: Is it safe to use daily?</b>
+<p>A: Yes, it is completely safe.</p>
+</div>
+
+</div>
+
+</section>
+<!-- FOOTER -->
+
+<footer class="site-footer">
+
+<div class="footer-container">
+
+<!-- About -->
+<div class="footer-about">
+<h3>About Calorix</h3>
+<p>
+Calorix provides safe and effective heat therapy products designed to
+relieve muscle pain, cramps and stiffness. Our goal is to help people
+experience everyday comfort and better recovery at home.
+</p>
+</div>
+<div class="social-icons">
+
+<a href="https://www.facebook.com/profile.php?id=61574705771966&mibextid=ZbWKwL"><i class="fa-brands fa-facebook-f"></i></a>
+
+<a href="https://www.instagram.com/we_care_physiotherapy_guntur?igsh=Mzk4MXZhNzZvcndq"><i class="fa-brands fa-instagram"></i></a>
+
+<a href="https://www.youtube.com/@Lalithcarephysiotherapyguntur"><i class="fa-brands fa-youtube"></i></a>
+
+
+</div>
+<!-- Useful Links -->
+<div class="footer-links">
+<h3>Useful Links</h3>
+<ul>
+<li><a href="#">Home</a></li>
+<li><a href="about.html">About Us</a></li>
+<li><a href="#reviews">Customer Reviews</a></li>
+<li><a href="#faq">FAQ</a></li>
+<li><a href="contact.html">Contact Us</a></li>
+</ul>
+</div>
+
+<!-- Legal -->
+<div class="footer-links">
+<h3>Legal</h3>
+<ul>
+<li><a href="terms.html">Terms & Conditions</a></li>
+<li><a href="privacy.html">Privacy Policy</a></li>
+<li><a href="shipping.html">Shipping Policy</a></li>
+<li><a href="returns.html">Returns & Exchanges</a></li>
+<li><a href="disclaimer.html">Disclaimer</a></li>
+</ul>
+</div>
+
+<!-- Customer Support -->
+
+
+</div>
+
+<div class="footer-bottom">
+<p>© 2026 Calorix. All Rights Reserved.</p>
+</div>
+
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+
+
+/* NAVBAR AUTO CLOSE */
+
+document.querySelectorAll('.nav-link').forEach(link=>{
+link.addEventListener('click',()=>{
+let nav=document.querySelector('.navbar-collapse');
+let bsCollapse=new bootstrap.Collapse(nav,{toggle:false});
+bsCollapse.hide();
+});
+});
+
+function escapeHTML(str){
+return str.replace(/[&<>"']/g,function(m){
+return ({
+'&':'&amp;',
+'<':'&lt;',
+'>':'&gt;',
+'"':'&quot;',
+"'":'&#039;'
+})[m];
+});
+}
+/* TOGGLE REVIEW FORM */
+
+function toggleReviewForm(){
+
+let form=document.getElementById("reviewForm");
+
+form.style.display = form.style.display==="none" ? "block":"none";
+
+}
+
+document.addEventListener("DOMContentLoaded",function(){
+
+let savedOrder = localStorage.getItem("orderId");
+
+if(savedOrder){
+document.getElementById("orderCode").value = savedOrder;
+}
+
+});
+/* STAR RATING */
+
+let stars=document.querySelectorAll(".star");
+let ratingInput=document.getElementById("rating");
+
+stars.forEach(star=>{
+
+star.addEventListener("click",function(){
+
+let value=this.getAttribute("data-value");
+
+ratingInput.value=value;
+
+stars.forEach(s=>s.classList.remove("active"));
+
+for(let i=0;i<value;i++){
+stars[i].classList.add("active");
+}
+
+});
+
+});
+
+
+/* SUBMIT REVIEW */
+
+document.getElementById("reviewForm").addEventListener("submit",async function(e){
+
+e.preventDefault();
+
+let name=document.getElementById("reviewName").value;
+let title=document.getElementById("title").value;
+let comment=document.getElementById("comment").value;
+let rating=document.getElementById("rating").value;
+if(rating == 0){
+alert("Please select a star rating");
+return;
+}
+let mediaFile=document.getElementById("media").files[0];
+let orderCode=document.getElementById("orderCode").value;
+
+let formData=new FormData();
+formData.append("orderCode",orderCode);
+formData.append("name",name);
+formData.append("title",title);
+formData.append("comment",comment);
+formData.append("rating",rating);
+
+if(mediaFile){
+formData.append("media",mediaFile);
+}
+
+await fetch("http://localhost:3000/review",{
+method:"POST",
+body:formData
+});
+
+alert("Review posted!");
+localStorage.removeItem("orderId");
+loadReviews();
+
+document.getElementById("reviewForm").reset();
+
+});
+function openOrder(){
+document.getElementById("orderModal").style.display = "flex";
+}
+
+function closeOrder(){
+document.getElementById("orderModal").style.display = "none";
+}
+
+async function submitOrder(){
+
+let name = document.getElementById("custName").value;
+let phone = document.getElementById("custPhone").value;
+let address = document.getElementById("custAddress").value;
+
+if(!name || !phone || !address){
+alert("Please fill all details");
+return;
+}
+
+let orderId = "CALORIX-" + Date.now();
+
+await fetch("http://localhost:3000/create-order",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+orderCode:orderId,
+name,
+phone,
+address
+})
+});
+
+alert("✅ Order placed successfully!\nOrder ID: " + orderId);
+
+closeOrder();
+}
+function goToCheckout(){
+window.location.href = "checkout.html";
+}
+function showAllReviews(){
+
+let extra = document.querySelectorAll(".extra-review");
+let btn = document.getElementById("showReviewsBtn");
+
+let expanded = btn.getAttribute("data-open");
+
+if(expanded === "true"){
+
+extra.forEach(r=>{
+r.style.display="none";
+});
+
+btn.innerText = "See All Reviews";
+btn.setAttribute("data-open","false");
+
+}
+else{
+
+extra.forEach(r=>{
+r.style.display="block";
+});
+
+btn.innerText = "Hide Reviews";
+btn.setAttribute("data-open","true");
+
+}
+
+}
+function orderNow(){
+
+let orderId = "CALORIX-" + Date.now(); // no need separate function
+
+let message = `Hello, I want to order Calorix Heat Pack.
+Order ID: ${orderId}`;
+
+let url = "https://wa.me/918688340134?text=" + encodeURIComponent(message);
+
+window.open(url,"_blank");
+
+}
+/* LOAD REVIEWS */
+async function loadReviews(){
+
+let res = await fetch("http://localhost:3000/reviews");
+let data = await res.json();
+
+let reviews = data.reviews;
+let allReviews = data.all;
+let counts = {1:0,2:0,3:0,4:0,5:0};
+
+allReviews.forEach(r=>{
+counts[r.rating]++;
+});
+let total = allReviews.length;
+if(allReviews.length <= 2){
+document.getElementById("showReviewsBtn").style.display="none";
+}
+
+for(let i=1;i<=5;i++){
+
+let percent = total ? Math.round((counts[i]/total)*100) : 0;
+
+document.getElementById("percent"+i).innerText = percent + "%";
+document.getElementById("bar"+i).style.width = percent + "%";
+
+}
+
+
+
+
+document.getElementById("reviewCount").innerText = allReviews.length;
+let container = document.getElementById("review-list");
+
+container.innerHTML = "";
+let gallery = document.getElementById("photo-gallery");
+gallery.innerHTML = "";
+let photoList = [];
+let totalRating = 0;
+
+allReviews.forEach(r=>{
+totalRating += r.rating;
+});
+
+let avg = allReviews.length ? (totalRating / allReviews.length).toFixed(1) : 0;
+
+document.getElementById("avgRating").innerText = "⭐ " + avg + " / 5";
+document.getElementById("totalReviews").innerText = allReviews.length + " reviews";
+
+allReviews.forEach((r,index)=>{
+
+
+let stars = "⭐".repeat(r.rating);
+
+let media = "";
+let date = new Date(r.createdAt || Date.now());
+
+let formattedDate = date.toLocaleDateString("en-IN", {
+day: "numeric",
+month: "long",
+year: "numeric"
+});
+
+
+if(r.media){
+
+if(r.media && r.media.match(/\.(jpg|jpeg|png|webp)$/i)){
+
+let imgURL = `http://localhost:3000/uploads/${r.media}`;
+
+photoList.push(imgURL);
+
+
+media = `<img src="${imgURL}" class="review-image">`;
+
+}
+
+else if(r.media.match(/\.(mp4|webm|mov)$/i)){
+
+media = `<video controls class="review-video">
+<source src="http://localhost:3000/uploads/${r.media}">
+</video>`;
+
+}
+
+}
+
+container.innerHTML += `
+<div class="review-item">
+
+<div class="review-header">
+
+<div class="profile-icon">
+<img src="https://ui-avatars.com/api/?name=${r.name}&background=random">
+</div>
+
+<div class="review-user">
+<strong>${escapeHTML(r.name)}</strong>
+${r.verified ? '<span class="verified">✔ Verified Purchase</span>' : ''}
+</div>
+
+</div>
+
+<div class="rating">${stars}</div>
+<p class="review-date">Reviewed in India on ${formattedDate}</p>
+${r.title ? `<p class="review-title">${r.title}</p>` : ""}
+<p>${escapeHTML(r.comment)}</p>
+
+
+${media}
+
+</div>
+`;
+
+});
+
+photoList.slice(0,6).forEach(src => {
+
+gallery.innerHTML += `
+<img src="${src}" class="gallery-img" onclick="openViewer('${src}')">
+`;
+
+});
+
+if(photoList.length <= 6){
+document.getElementById("seePhotosBtn").style.display="none";
+}
+
+window.allPhotos = photoList;
+}
+
+loadReviews();
+
+function toggleReviews(){
+
+let reviews=document.getElementById("review-list");
+
+if(reviews.style.display==="none"){
+reviews.style.display="block";
+}
+else{
+reviews.style.display="none";
+}
+
+}
+function openViewer(src){
+let viewer = document.getElementById("image-viewer");
+let img = document.getElementById("viewer-img");
+
+img.src = src;
+viewer.style.display = "flex";
+}
+
+function closeViewer(){
+document.getElementById("image-viewer").style.display = "none";
+}
+function showAllPhotos(){
+
+let gallery = document.getElementById("photo-gallery");
+gallery.innerHTML = "";
+
+window.allPhotos.forEach(src => {
+
+gallery.innerHTML += `
+<img src="${src}" class="gallery-img" onclick="openViewer('${src}')">
+`;
+
+});
+
+document.getElementById("seePhotosBtn").style.display="none";
+
+}
+</script>
+<div id="image-viewer" class="image-viewer" onclick="closeViewer()">
+<img id="viewer-img">
+</div>
+
+
+</div>
+</body>
+</html>
+
