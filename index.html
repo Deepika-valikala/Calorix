@@ -433,7 +433,7 @@ if(mediaFile){
 formData.append("media",mediaFile);
 }
 
-await fetch("http://localhost:3000/review",{
+await fetch("https://calorix-backend.onrender.com/review",{
 method:"POST",
 body:formData
 });
@@ -466,7 +466,7 @@ return;
 
 let orderId = "CALORIX-" + Date.now();
 
-await fetch("http://localhost:3000/create-order",{
+await fetch("https://calorix-backend.onrender.com/create-order",{
 method:"POST",
 headers:{
 "Content-Type":"application/json"
@@ -530,7 +530,7 @@ window.open(url,"_blank");
 /* LOAD REVIEWS */
 async function loadReviews(){
 
-let res = await fetch("http://localhost:3000/reviews");
+let res = await fetch("https://calorix-backend.onrender.com/reviews");
 let data = await res.json();
 
 let reviews = data.reviews;
@@ -594,8 +594,7 @@ if(r.media){
 
 if(r.media && r.media.match(/\.(jpg|jpeg|png|webp)$/i)){
 
-let imgURL = `http://localhost:3000/uploads/${r.media}`;
-
+let imgURL = `https://calorix-backend.onrender.com/uploads/${r.media}`;
 photoList.push(imgURL);
 
 
@@ -606,7 +605,7 @@ media = `<img src="${imgURL}" class="review-image">`;
 else if(r.media.match(/\.(mp4|webm|mov)$/i)){
 
 media = `<video controls class="review-video">
-<source src="http://localhost:3000/uploads/${r.media}">
+<source src="https://calorix-backend.onrender.com/uploads/${r.media}">
 </video>`;
 
 }

@@ -3,7 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const multer = require("multer");
 const cors = require("cors");
-const bcrypt = require("bcrypt");
+
 const rateLimit = require("express-rate-limit");
 
 const jwt = require("jsonwebtoken");
@@ -13,8 +13,12 @@ const SECRET_KEY = process.env.SECRET_KEY;
 const app = express();
 app.use(express.json());
 app.use(cors());
-
-mongoose.connect("mongodb://127.0.0.1:27017/calorix");
+mongoose.connect(process.env.MONGO_URI)
+.then(() => console.log("MongoDB Connected ✅"))
+.catch(err => {
+    console.error("MongoDB Error ❌", err);
+    process.exit(1); // stop app if DB fails
+});
 
 // Review schema
 const Review = mongoose.model("Review",{
@@ -137,18 +141,9 @@ res.status(401).send("Invalid token");
 
 }
 // test route
-app.post("/create-order", async(req,res)=>{
-
-const order = new Order({
-orderCode:req.body.orderCode
+app.get("/", (req,res)=>{
+    res.send("Backend is LIVE 🚀");
 });
-
-await order.save();
-
-res.json({message:"Order saved"});
-
-});
-
 // Admin login
 app.post("/admin/login", loginLimiter, async (req,res)=>{
 
@@ -157,15 +152,11 @@ const {username,password} = req.body;
 console.log("Username:", username);
 
 if(username !== process.env.ADMIN_USER){
-return res.status(401).json({message:"Invalid credentials"});
+    return res.status(401).json({message:"Invalid credentials"});
 }
 
-const match = await bcrypt.compare(password, process.env.ADMIN_PASS);
-
-console.log("Password match:", match);
-
-if(!match){
-return res.status(401).json({message:"Invalid credentials"});
+if(password !== process.env.ADMIN_PASS){
+    return res.status(401).json({message:"Invalid credentials"});
 }
 
 const token = jwt.sign({role:"admin"}, process.env.SECRET_KEY,{expiresIn:"1h"});
