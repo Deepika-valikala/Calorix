@@ -590,26 +590,22 @@ year: "numeric"
 });
 
 
-if(r.media){
+if (r.media) {
 
-if(r.media && r.media.match(/\.(jpg|jpeg|png|webp)$/i)){
+    if (r.media.match(/\.(jpg|jpeg|png|webp)$/i)) {
 
-let imgURL = `https://calorix-backend.onrender.com/uploads/${r.media}`;
-photoList.push(imgURL);
+        photoList.push(r.media);
 
+        media = `<img src="${r.media}" class="review-image">`;
 
-media = `<img src="${imgURL}" class="review-image">`;
+    } 
+    else if (r.media.match(/\.(mp4|webm|mov)$/i)) {
 
-}
-
-else if(r.media.match(/\.(mp4|webm|mov)$/i)){
-
-media = `<video controls class="review-video">
-<source src="https://calorix-backend.onrender.com/uploads/${r.media}">
-</video>`;
-
-}
-
+        media = `
+        <video controls class="review-video">
+            <source src="${r.media}">
+        </video>`;
+    }
 }
 
 container.innerHTML += `
