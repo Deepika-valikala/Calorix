@@ -25,7 +25,7 @@ async function approveReview(id){
 
 const token = localStorage.getItem("adminToken");
 
-await fetch(`http://localhost:3000/admin/review/${id}/approve`,{
+await fetch(`https://calorix-backend.onrender.com/admin/review/${id}/approve`,{
 method:"PUT",
 headers:{
 Authorization:`Bearer ${token}`
@@ -37,7 +37,7 @@ loadReviews();
 }
 async function adminLogin(){
 
-const res = await fetch("http://localhost:3000/admin/login",{
+const res = await fetch("https://calorix-backend.onrender.com/admin/login",{
 method:"POST",
 headers:{"Content-Type":"application/json"},
 body:JSON.stringify({
@@ -66,7 +66,7 @@ async function loadReviews(){
 
 const token = localStorage.getItem("adminToken");
 
-const res = await fetch("http://localhost:3000/admin/reviews",{
+const res = await fetch("https://calorix-backend.onrender.com/admin/reviews",{
 headers:{
 Authorization:`Bearer ${token}`
 }
@@ -115,7 +115,7 @@ async function deleteReview(id){
 
 const token = localStorage.getItem("adminToken");
 
-await fetch(`http://localhost:3000/admin/review/${id}`,{
+await fetch(`https://calorix-backend.onrender.com/admin/review/${id}`,{
 method:"DELETE",
 headers:{
 Authorization:`Bearer ${token}`
@@ -131,7 +131,7 @@ async function verifyReview(id){
 
 const token = localStorage.getItem("adminToken");
 
-await fetch(`http://localhost:3000/admin/review/${id}/verify`,{
+await fetch(`https://calorix-backend.onrender.com/admin/review/${id}/verify`,{
 method:"PUT",
 headers:{
 Authorization:`Bearer ${token}`
