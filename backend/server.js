@@ -34,6 +34,7 @@ comment:String,
 rating:Number,
 media:String,
 verified:Boolean,
+product:String,
 approved:{
 type:Boolean,
 default:false
@@ -44,17 +45,23 @@ default:Date.now
 }
 });
 const Order = mongoose.model("Order",{
-orderCode:String,
-name:String,
-phone:String,
-address:String,
-quantity:Number,
-paymentMethod:String,
-totalAmount:Number,
-createdAt:{
-type:Date,
-default:Date.now
-}
+  orderCode:String,
+  name:String,
+  phone:String,
+  address:String,
+  quantity:Number,
+  paymentMethod:String,
+  totalAmount:Number,
+
+  status:{
+    type:String,
+    default:"Pending"
+  },
+
+  createdAt:{
+    type:Date,
+    default:Date.now
+  }
 });
 
 app.post("/create-order", async (req,res)=>{
@@ -121,7 +128,8 @@ title:req.body.title,
 comment:req.body.comment,
 rating:req.body.rating,
 media:req.file ? req.file.path : null,
-verified: verified
+verified: verified,
+product: req.body.product 
 });
 
 await review.save();
@@ -245,8 +253,84 @@ all: allReviews
 
 
 
+app.get("/admin/analytics", verifyAdmin, async (req, res) => {
+  try {
+const pendingOrders = await Order.countDocuments({
+  status: "Pending"
+});
 
+const deliveredOrders = await Order.countDocuments({
+  status: "Delivered"
+});
 
+const shippedOrders = await Order.countDocuments({
+  status: "Shipped"
+});
+
+const processingOrders = await Order.countDocuments({
+  status: "Processing"
+});
+    const totalReviews = await Review.countDocuments();
+
+    const approvedReviews = await Review.countDocuments({
+      approved: true
+    });
+
+    const totalOrders = await Order.countDocuments();
+
+    const orders = await Order.find();
+
+    const totalRevenue = orders.reduce(
+      (sum, order) => sum + (order.totalAmount || 0),
+      0
+    );
+
+    res.json({
+  totalUsers: 1,
+  totalOrders,
+  totalReviews,
+  approvedReviews,
+  totalRevenue,
+
+  pendingOrders,
+  processingOrders,
+  shippedOrders,
+  deliveredOrders
+});
+
+  } catch (err) {
+
+    console.error(err);
+
+    res.status(500).json({
+      message: "Server Error"
+    });
+
+  }
+});
+app.get("/admin/orders", verifyAdmin, async (req,res)=>{
+
+  const orders = await Order.find().sort({_id:-1});
+
+  res.json(orders);
+
+});
+app.put("/admin/order/:id/status",
+verifyAdmin,
+async (req,res)=>{
+
+  await Order.findByIdAndUpdate(
+    req.params.id,
+    {
+      status:req.body.status
+    }
+  );
+
+  res.json({
+    message:"Order status updated"
+  });
+
+});
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT,()=>{
