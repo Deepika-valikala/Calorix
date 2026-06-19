@@ -1,78 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Calorix Admin Dashboard</title>
+<style>
+.users-card{
+  background:#4361ee !important;
+  color:white !important;
+}
+
+.orders-card{
+  background:#2a9d8f !important;
+  color:white !important;
+}
+
+.reviews-card{
+  background:#00b4d8 !important;
+  color:white !important;
+}
+
+.revenue-card{
+  background:#212529 !important;
+  color:white !important;
+}
+
+.pending-card{
+  background:#ffb703 !important;
+  color:black !important;
+}
+
+.processing-card{
+  background:#6c757d !important;
+  color:white !important;
+}
+
+.shipped-card{
+  background:#3a86ff !important;
+  color:white !important;
+}
+
+.delivered-card{
+  background:#06d6a0 !important;
+  color:white !important;
+}
+.card{
+  border:none;
+  border-radius:18px;
+  transition:all 0.3s ease;
+  overflow:hidden;
+}
+
+.card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 10px 25px rgba(0,0,0,0.15) !important;
+}
+
+.analytics-card .card-body{
+  min-height:120px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+}
+.card h2{
+  font-size:2.5rem;
+  font-weight:700;
+}
+
+.card h5{
+  font-size:1rem;
+  font-weight:600;
+  opacity:0.9;
+}
+#orderChart{
+  max-height:350px;
+}
+body{
+  background:#f5f7fb;
+}
+</style>
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <nav class="navbar navbar-dark bg-dark">
+  <div class="container-fluid">
+
+    <span class="navbar-brand">
+      Calorix Admin Dashboard
+    </span>
+
+    <button
+      class="btn btn-danger"
+      onclick="logout()">
+      Logout
+    </button>
+
+  </div>
+</nav>
+<div class="container mt-4">
 <h2 id="loginTitle">Admin Login</h2>
 
 <div id="loginSection">
-  <input type="text" id="username" placeholder="Username">
-  <input type="password" id="password" placeholder="Password">
+  <div class="row g-2 mb-4">
+  <div class="col-md-4">
+    <input class="form-control" type="text" id="username" placeholder="Username">
+  </div>
 
-  <button onclick="adminLogin()">Login</button>
+  <div class="col-md-4">
+    <input class="form-control" type="password" id="password" placeholder="Password">
+  </div>
+
+  <div class="col-md-2">
+    <button class="btn btn-primary w-100" onclick="adminLogin()">
+      Login
+    </button>
+  </div>
 </div>
 
-<button onclick="logout()">Logout</button>
-
-<hr>
-<h2>Dashboard Analytics</h2>
-
-<div style="display:flex;gap:20px;margin-bottom:20px;flex-wrap:wrap;">
-
-  <div style="border:1px solid #ccc;padding:15px;">
-    <h3>Total Users</h3>
-    <p id="totalUsers">0</p>
-  </div>
-
-  <div style="border:1px solid #ccc;padding:15px;">
-    <h3>Total Orders</h3>
-    <p id="totalOrders">0</p>
-  </div>
-
-  <div style="border:1px solid #ccc;padding:15px;">
-    <h3>Total Reviews</h3>
-    <p id="totalReviews">0</p>
-  </div>
-
-  <div style="border:1px solid #ccc;padding:15px;">
-    <h3>Revenue</h3>
-    <p id="totalRevenue">₹0</p>
-  </div>
-
-  <div style="border:1px solid #ccc;padding:15px;">
-    <h3>Pending</h3>
-    <p id="pendingOrders">0</p>
-  </div>
-
-  <div style="border:1px solid #ccc;padding:15px;">
-    <h3>Processing</h3>
-    <p id="processingOrders">0</p>
-  </div>
-
-  <div style="border:1px solid #ccc;padding:15px;">
-    <h3>Shipped</h3>
-    <p id="shippedOrders">0</p>
-  </div>
-
-  <div style="border:1px solid #ccc;padding:15px;">
-    <h3>Delivered</h3>
-    <p id="deliveredOrders">0</p>
-  </div>
-
-</div>
-<h2>Order Management</h2>
-
-<div id="orders">
-Loading Orders...
-</div>
-<h2>Admin Review Panel</h2>
-
-<div>
-  <button onclick="filterProduct('all')">All</button>
-  <button onclick="filterProduct('belt')">Belt</button>
-  <button onclick="filterProduct('heatpack')">Heat Pack</button>
 </div>
 
-<div id="reviews"></div>
+<div id="dashboardSection" style="display:none;">
+
+  <hr>
+
+  <h2 class="mb-4 fw-bold">
+    <i class="bi bi-bar-chart-fill"></i>
+    Dashboard Analytics
+  </h2>
+
+  <div class="row g-4">
+
+    <!-- Total Users -->
+    <div class="col-md-3">
+      <div class="card analytics-card users-card shadow">
+        <div class="card-body">
+          <h5>Total Users</h5>
+          <h2 id="totalUsers">0</h2>
+        </div>
+      </div>
+    </div>
+
+    <!-- Total Orders -->
+    <div class="col-md-3">
+      <div class="card analytics-card orders-card shadow">
+        <div class="card-body">
+          <h5>Total Orders</h5>
+          <h2 id="totalOrders">0</h2>
+        </div>
+      </div>
+    </div>
+
+    <!-- Total Reviews -->
+    <div class="col-md-3">
+      <div class="card analytics-card reviews-card shadow">
+        <div class="card-body">
+          <h5>Total Reviews</h5>
+          <h2 id="totalReviews">0</h2>
+        </div>
+      </div>
+    </div>
+
+    <!-- Revenue -->
+    <div class="col-md-3">
+      <div class="card analytics-card revenue-card shadow">
+        <div class="card-body">
+          <h5>Total Revenue</h5>
+          <h2 id="totalRevenue">₹0</h2>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pending -->
+    <div class="col-md-3">
+      <div class="card analytics-card pending-card shadow">
+        <div class="card-body">
+          <h5>Pending</h5>
+          <h2 id="pendingOrders">0</h2>
+        </div>
+      </div>
+    </div>
+
+    <!-- Processing -->
+    <div class="col-md-3">
+      <div class="card analytics-card processing-card shadow">
+        <div class="card-body">
+          <h5>Processing</h5>
+          <h2 id="processingOrders">0</h2>
+        </div>
+      </div>
+    </div>
+
+    <!-- Shipped -->
+    <div class="col-md-3">
+      <div class="card analytics-card shipped-card shadow">
+        <div class="card-body">
+          <h5>Shipped</h5>
+          <h2 id="shippedOrders">0</h2>
+        </div>
+      </div>
+    </div>
+
+    <!-- Delivered -->
+    <div class="col-md-3">
+      <div class="card analytics-card delivered-card shadow">
+        <div class="card-body">
+          <h5>Delivered</h5>
+          <h2 id="deliveredOrders">0</h2>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <h2 class="mt-5">Order Statistics</h2>
+
+  <div class="card shadow-sm p-3 mb-4">
+    <canvas id="orderChart" height="120"></canvas>
+  </div>
+
+  <h2>Order Management</h2>
+
+  <div id="orders">
+    Loading Orders...
+  </div>
+
+  <h2 class="mt-4">Admin Review Panel</h2>
+
+  <div id="reviews"></div>
+
+</div>
 
 <script>
 function logout(){
   localStorage.removeItem("adminToken");
+
+  document.getElementById("dashboardSection").style.display = "none";
+
+  document.getElementById("loginSection").style.display = "block";
+
+  document.getElementById("loginTitle").style.display = "block";
+
   alert("Logged out");
   location.reload();
 }
@@ -101,7 +271,7 @@ async function adminLogin(){
 
 document.getElementById("loginSection").style.display = "none";
 document.getElementById("loginTitle").style.display = "none";
-
+document.getElementById("dashboardSection").style.display = "block";
 loadReviews();
 loadAnalytics();
 loadOrders();
@@ -159,33 +329,84 @@ function renderReviews(reviews){
   const container = document.getElementById("reviews");
   container.innerHTML = "";
 
-  reviews.forEach(r=>{
-    container.innerHTML += `
-    <div style="border:1px solid #ccc;padding:10px;margin:10px">
-      <b>${escapeHTML(r.name)}</b> &#9733; ${r.rating}<br>
-      Order ID: ${r.orderCode || "N/A"}<br>
+  reviews.forEach(r => {
 
-      ${r.product ? `<p><b>Product:</b> ${r.product}</p>` : ""}
-      <p>${escapeHTML(r.comment)}</p>
+  container.innerHTML += `
 
-      ${r.verified ? "&#10004; Verified Purchase" : ""}
+  <div class="card shadow-sm mb-3">
+    <div class="card-body">
 
-      <br><br>
+      <h5>
+        ${escapeHTML(r.name)}
+       <span class="badge bg-warning text-dark">
+  <i class="bi bi-star-fill"></i> ${r.rating}
+</span>
+      </h5>
 
-      ${!r.approved 
-        ? `<button onclick="approveReview('${r._id}')">Approve</button>` 
-        : "✅ Approved"
-      }
+      <p>
+        <strong>Order ID:</strong>
+        ${r.orderCode || "N/A"}
+      </p>
 
-      ${!r.verified 
-        ? `<button onclick="verifyReview('${r._id}')">Verify</button>` 
+      ${r.product
+        ? `<p><strong>Product:</strong> ${r.product}</p>`
         : ""
       }
 
-      <button onclick="deleteReview('${r._id}')">Delete</button>
+      <p>${escapeHTML(r.comment)}</p>
+
+      ${
+        r.verified
+          ? `<span class="badge bg-success">
+               Verified Purchase
+             </span>`
+          : ""
+      }
+${r.product
+  ? `<span class="badge bg-secondary">${r.product}</span>`
+  : ""
+}
+
+      ${
+        !r.approved
+          ? `
+          <button
+            class="btn btn-success btn-sm"
+            onclick="approveReview('${r._id}')">
+            Approve
+          </button>
+          `
+          : `
+          <span class="badge bg-primary">
+            Approved
+          </span>
+          `
+      }
+
+      ${
+        !r.verified
+          ? `
+          <button
+            class="btn btn-info btn-sm"
+            onclick="verifyReview('${r._id}')">
+            Verify
+          </button>
+          `
+          : ""
+      }
+
+      <button
+        class="btn btn-danger btn-sm"
+        onclick="deleteReview('${r._id}')">
+        Delete
+      </button>
+
     </div>
-    `;
-  });
+  </div>
+
+  `;
+
+});
 }
 
 // ================= ACTIONS =================
@@ -218,7 +439,7 @@ async function handleRequest(endpoint, method){
     if(!res.ok) throw new Error("Action failed");
 
     loadReviews();
-
+loadAnalytics();
   } catch(err){
     alert(err.message);
   }
@@ -237,8 +458,11 @@ async function loadOrders(){
     }
   );
 
-  const orders =
-    await res.json();
+  if(!res.ok){
+  throw new Error("Failed to load orders");
+}
+
+const orders = await res.json();
 
   const container =
     document.getElementById("orders");
@@ -247,45 +471,71 @@ async function loadOrders(){
 
   orders.forEach(order=>{
 
+let badgeColor = "secondary";
+
+if(order.status === "Pending")
+  badgeColor = "warning";
+
+if(order.status === "Processing")
+  badgeColor = "info";
+
+if(order.status === "Shipped")
+  badgeColor = "primary";
+
+if(order.status === "Delivered")
+  badgeColor = "success";
     container.innerHTML += `
-      <div style="
-      border:1px solid #ccc;
-      padding:10px;
-      margin:10px">
+<div class="card shadow-sm mb-3">
+  <div class="card-body">
 
-      <b>${order.orderCode || "N/A"}</b><br>
+    <h5>
+      ${order.orderCode || "N/A"}
+    </h5>
 
-      Customer:
-      ${order.name || "Unknown"}<br>
+    <p>
+      <strong>Customer:</strong>
+      ${order.name || "Unknown"}
+    </p>
 
-      Amount: &#8377;${order.totalAmount || 0}<br>
+    <p>
+      <strong>Amount:</strong>
+      &#8377;${order.totalAmount || 0}
+    </p>
 
-      Status:
-      <b>${order.status}</b><br><br>
+    <p>
+      <strong>Status:</strong>
+      <span class="badge bg-${badgeColor}">
+        ${order.status}
+      </span>
+    </p>
 
-      <button
+    <button
+      class="btn btn-warning btn-sm"
       onclick="updateStatus(
       '${order._id}',
       'Processing')">
       Processing
-      </button>
+    </button>
 
-      <button
+    <button
+      class="btn btn-primary btn-sm"
       onclick="updateStatus(
       '${order._id}',
       'Shipped')">
       Shipped
-      </button>
+    </button>
 
-      <button
+    <button
+      class="btn btn-success btn-sm"
       onclick="updateStatus(
       '${order._id}',
       'Delivered')">
       Delivered
-      </button>
+    </button>
 
-      </div>
-    `;
+  </div>
+</div>
+`;
 
   });
 
@@ -312,6 +562,7 @@ status
   });
 
   loadOrders();
+loadAnalytics();
 }
 // ================= FILTER =================
 function filterProduct(type){
@@ -364,7 +615,47 @@ document.getElementById("shippedOrders").innerText =
 
 document.getElementById("deliveredOrders").innerText =
   data.deliveredOrders;
+ const ctx = document.getElementById("orderChart");
+
+if (
+  window.orderChart &&
+  typeof window.orderChart.destroy === "function"
+){
+  window.orderChart.destroy();
 }
+
+window.orderChart = new Chart(ctx,{
+  type:"bar",
+  data:{
+    labels:[
+      "Pending",
+      "Processing",
+      "Shipped",
+      "Delivered"
+    ],
+    datasets:[{
+      label:"Orders",
+      data:[
+        data.pendingOrders,
+        data.processingOrders,
+        data.shippedOrders,
+        data.deliveredOrders
+      ],
+      backgroundColor:[
+        "#ffb703",
+        "#6c757d",
+        "#3a86ff",
+        "#06d6a0"
+      ]
+    }]
+  },
+  options:{
+    responsive:true,
+    maintainAspectRatio:false
+  }
+});
+}
+
 // ================= AUTO LOAD =================
 window.onload = () => {
 
@@ -373,6 +664,7 @@ window.onload = () => {
 
     document.getElementById("loginSection").style.display = "none";
     document.getElementById("loginTitle").style.display = "none";
+    document.getElementById("dashboardSection").style.display = "block";
 
     loadReviews();
     loadAnalytics();
@@ -381,3 +673,7 @@ window.onload = () => {
 
 };
 </script>
+</div>
+
+</body>
+</html>
