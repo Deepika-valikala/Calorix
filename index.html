@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <meta charset="UTF-8">
@@ -28,9 +28,7 @@
 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
 <span class="navbar-toggler-icon"></span>
 </button>
-<li class="nav-item">
-<a class="nav-link" href="#" onclick="viewCart()">Cart 🛒</a>
-</li>
+
 <div class="collapse navbar-collapse" id="navbarNav">
 
 <ul class="navbar-nav ms-auto align-items-center">
@@ -126,43 +124,6 @@ Order on WhatsApp
 
 </div>
 
-<section id="shop" class="container my-5 text-center">
-
-<h2 class="mb-5">Shop Our Products</h2>
-
-<div class="row g-4">
-
-
-
-<!-- PRODUCT 2 -->
-<div class="col-md-4">
-  <div class="product-card">
-    <img src="images/belt.png" class="img-fluid">
-    <h5>Calorix LS Belt</h5>
-    <p class="price">₹1499</p>
-    <button onclick="addToCart('LS Belt',1499)" class="btn btn-danger">
-      Add to Cart
-    </button>
-  </div>
-</div>
-
-<!-- PRODUCT 3 -->
-<div class="col-md-4">
-  <div class="product-card">
-    <img src="images/knee.png" class="img-fluid">
-    <h5>Knee Support</h5>
-    <p class="price">₹999</p>
-    <button onclick="addToCart('Knee Support',999)" class="btn btn-danger">
-      Add to Cart
-    </button>
-  </div>
-</div>
-
-</div>
-
-</section>
-🎨
-
 
 <!-- FEATURES -->
 <section id="features" class="container my-5 text-center">
@@ -173,7 +134,6 @@ Order on WhatsApp
 
 <div class="col-md-4">
     <div class="feature-box">
-        <i class="fas fa-heart"></i>
         <h3>Pain Relief</h3>
         <p>Provides deep heat therapy for muscle pain.</p>
     </div>
@@ -181,7 +141,6 @@ Order on WhatsApp
 
 <div class="col-md-4">
     <div class="feature-box">
-        <i class="fas fa-house-medical"></i>
         <h3>Safe Home Use</h3>
         <p>Easy to use heating pad for everyday comfort.</p>
     </div>
@@ -189,7 +148,6 @@ Order on WhatsApp
 
 <div class="col-md-4">
     <div class="feature-box">
-        <i class="fas fa-user-doctor"></i>
         <h3>Doctor Recommended</h3>
         <p>Trusted by physiotherapists.</p>
     </div>
@@ -297,34 +255,7 @@ Order on WhatsApp
 </a>
 
 </section>-->
-</section>
-<div class="col-md-4">
-  <div class="shop-card">
 
-    <!-- IMAGE -->
-    <div class="card-img">
-      <a href="belt.html">
-    <img src="images/belt.jpeg" alt="Belt">
-  </a>
-
-    </div>
-
-    <!-- CONTENT -->
-    <div class="card-body">
-      <h5>Calorix LS Belt</h5>
-      <p class="price">₹ 1099.00</p>
-
-      
-
-     
-      <!-- BUTTON -->
-      <button onclick="addToCart('Belt',1099)" class="btn btn-dark mt-3">
-        Add to Cart
-      </button>
-    </div>
-
-  </div>
-</div>
 <!-- WHATSAPP -->
 <section class="faq" id="faq">
 
@@ -344,7 +275,7 @@ Order on WhatsApp
 
 </div>
 
-
+</section>
 <!-- FOOTER -->
 
 <footer class="site-footer">
@@ -409,26 +340,7 @@ experience everyday comfort and better recovery at home.
 
 <script>
 
-let cart = [];
 
-function addToCart(name, price){
-    cart.push({name, price});
-    alert(name + " added to cart!");
-}
-
-function viewCart(){
-    let total = 0;
-    let msg = "Your Cart:\n";
-
-    cart.forEach(item=>{
-        msg += item.name + " - ₹" + item.price + "\n";
-        total += item.price;
-    });
-
-    msg += "\nTotal: ₹" + total;
-
-    alert(msg);
-}
 /* NAVBAR AUTO CLOSE */
 
 document.querySelectorAll('.nav-link').forEach(link=>{
@@ -521,7 +433,7 @@ if(mediaFile){
 formData.append("media",mediaFile);
 }
 
-await fetch("https://calorix-backend.onrender.com/review",{
+await fetch("http://localhost:3000/review",{
 method:"POST",
 body:formData
 });
@@ -554,7 +466,7 @@ return;
 
 let orderId = "CALORIX-" + Date.now();
 
-await fetch("https://calorix-backend.onrender.com/create-order",{
+await fetch("http://localhost:3000/create-order",{
 method:"POST",
 headers:{
 "Content-Type":"application/json"
@@ -605,24 +517,20 @@ btn.setAttribute("data-open","true");
 }
 function orderNow(){
 
-let total = 0;
-let items = "";
+let orderId = "CALORIX-" + Date.now(); // no need separate function
 
-cart.forEach(item=>{
-    items += item.name + " - ₹" + item.price + "%0A";
-    total += item.price;
-});
+let message = `Hello, I want to order Calorix Heat Pack.
+Order ID: ${orderId}`;
 
-let message = `Hello, I want to order:%0A${items}%0ATotal: ₹${total}`;
+let url = "https://wa.me/918688340134?text=" + encodeURIComponent(message);
 
-let url = "https://wa.me/918688340134?text=" + message;
+window.open(url,"_blank");
 
-window.open(url, "_blank");
 }
 /* LOAD REVIEWS */
 async function loadReviews(){
 
-let res = await fetch("https://calorix-backend.onrender.com/reviews");
+let res = await fetch("http://localhost:3000/reviews");
 let data = await res.json();
 
 let reviews = data.reviews;
@@ -682,22 +590,27 @@ year: "numeric"
 });
 
 
-if (r.media) {
+if(r.media){
 
-    if (r.media.match(/\.(jpg|jpeg|png|webp)$/i)) {
+if(r.media && r.media.match(/\.(jpg|jpeg|png|webp)$/i)){
 
-        photoList.push(r.media);
+let imgURL = `http://localhost:3000/uploads/${r.media}`;
 
-        media = `<img src="${r.media}" class="review-image">`;
+photoList.push(imgURL);
 
-    } 
-    else if (r.media.match(/\.(mp4|webm|mov)$/i)) {
 
-        media = `
-        <video controls class="review-video">
-            <source src="${r.media}">
-        </video>`;
-    }
+media = `<img src="${imgURL}" class="review-image">`;
+
+}
+
+else if(r.media.match(/\.(mp4|webm|mov)$/i)){
+
+media = `<video controls class="review-video">
+<source src="http://localhost:3000/uploads/${r.media}">
+</video>`;
+
+}
+
 }
 
 container.innerHTML += `
@@ -794,4 +707,3 @@ document.getElementById("seePhotosBtn").style.display="none";
 </div>
 </body>
 </html>
-
