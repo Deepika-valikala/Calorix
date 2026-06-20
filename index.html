@@ -551,131 +551,181 @@ window.open(url,"_blank");
 /* LOAD REVIEWS */
 async function loadReviews(){
 
-let res = await fetch("https://calorix-backend.onrender.com/reviews");
-let data = await res.json();
+  let res = await fetch(
+    "https://calorix-backend.onrender.com/reviews"
+  );
 
-let reviews = data.reviews;
-let allReviews = data.all;
-let counts = {1:0,2:0,3:0,4:0,5:0};
+  let data = await res.json();
 
-allReviews.forEach(r=>{
-counts[r.rating]++;
-});
-let total = allReviews.length;
-if(allReviews.length <= 2){
-document.getElementById("showReviewsBtn").style.display="none";
-}
+  let allReviews = data.all;
 
-for(let i=1;i<=5;i++){
+  let counts = {1:0,2:0,3:0,4:0,5:0};
 
-let percent = total ? Math.round((counts[i]/total)*100) : 0;
+  allReviews.forEach(r=>{
+    counts[r.rating]++;
+  });
 
-document.getElementById("percent"+i).innerText = percent + "%";
-document.getElementById("bar"+i).style.width = percent + "%";
+  let total = allReviews.length;
 
-}
+  const showBtn =
+    document.getElementById("showReviewsBtn");
 
+  if(allReviews.length > 5){
+    showBtn.style.display = "inline-block";
+  }else{
+    showBtn.style.display = "none";
+  }
 
+  for(let i=1;i<=5;i++){
 
+    let percent = total
+      ? Math.round((counts[i]/total)*100)
+      : 0;
 
-document.getElementById("reviewCount").innerText = allReviews.length;
-let container = document.getElementById("review-list");
+    document.getElementById("percent"+i).innerText =
+      percent + "%";
 
-container.innerHTML = "";
-let gallery = document.getElementById("photo-gallery");
-gallery.innerHTML = "";
-let photoList = [];
-let totalRating = 0;
+    document.getElementById("bar"+i).style.width =
+      percent + "%";
+  }
 
-allReviews.forEach(r=>{
-totalRating += r.rating;
-});
+  document.getElementById("reviewCount").innerText =
+    allReviews.length;
 
-let avg = allReviews.length ? (totalRating / allReviews.length).toFixed(1) : 0;
+  let container =
+    document.getElementById("review-list");
 
-document.getElementById("avgRating").innerText = "⭐ " + avg + " / 5";
-document.getElementById("totalReviews").innerText = allReviews.length + " reviews";
+  container.innerHTML = "";
 
-allReviews.forEach((r,index)=>{
+  let gallery =
+    document.getElementById("photo-gallery");
 
+  gallery.innerHTML = "";
 
-let stars = "⭐".repeat(r.rating);
+  let photoList = [];
+  let totalRating = 0;
 
-let media = "";
-let date = new Date(r.createdAt || Date.now());
+  allReviews.forEach(r=>{
+    totalRating += r.rating;
+  });
 
-let formattedDate = date.toLocaleDateString("en-IN", {
-day: "numeric",
-month: "long",
-year: "numeric"
-});
+  let avg = allReviews.length
+    ? (totalRating / allReviews.length).toFixed(1)
+    : 0;
 
+  document.getElementById("avgRating").innerText =
+    "⭐ " + avg + " / 5";
 
-if(r.media){
+  document.getElementById("totalReviews").innerText =
+    allReviews.length + " reviews";
 
-if(r.media && r.media.match(/\.(jpg|jpeg|png|webp)$/i)){
+  allReviews.forEach((r,index)=>{
 
-let imgURL = r.media;;
+    let extraClass =
+      index >= 5 ? "extra-review" : "";
 
-photoList.push(imgURL);
+    let displayStyle =
+      index >= 5 ? "display:none;" : "";
 
+    let stars = "⭐".repeat(r.rating);
 
-media = `<img src="${imgURL}" class="review-image">`;
+    let media = "";
 
-}
+    let date =
+      new Date(r.createdAt || Date.now());
 
-else if(r.media.match(/\.(mp4|webm|mov)$/i)){
+    let formattedDate =
+      date.toLocaleDateString("en-IN",{
+        day:"numeric",
+        month:"long",
+        year:"numeric"
+      });
 
-media = `<video controls class="review-video">
-<source src="${r.media}">
-</video>`;
+    if(r.media){
 
-}
+      if(r.media.match(/\.(jpg|jpeg|png|webp)$/i)){
 
-}
+        let imgURL = r.media;
 
-container.innerHTML += `
-<div class="review-item">
+        photoList.push(imgURL);
 
-<div class="review-header">
+        media = `
+          <img src="${imgURL}"
+               class="review-image">
+        `;
 
-<div class="profile-icon">
-<img src="https://ui-avatars.com/api/?name=${r.name}&background=random">
-</div>
+      }else if(r.media.match(/\.(mp4|webm|mov)$/i)){
 
-<div class="review-user">
-<strong>${escapeHTML(r.name)}</strong>
-${r.verified ? '<span class="verified">✔ Verified Purchase</span>' : ''}
-</div>
+        media = `
+          <video controls class="review-video">
+            <source src="${r.media}">
+          </video>
+        `;
+      }
+    }
 
-</div>
+    container.innerHTML += `
+      <div class="review-item ${extraClass}"
+           style="${displayStyle}">
 
-<div class="rating">${stars}</div>
-<p class="review-date">Reviewed in India on ${formattedDate}</p>
-${r.title ? `<p class="review-title">${r.title}</p>` : ""}
-<p>${escapeHTML(r.comment)}</p>
+        <div class="review-header">
 
+          <div class="profile-icon">
+            <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(r.name)}&background=random">
+          </div>
 
-${media}
+          <div class="review-user">
+            <strong>${escapeHTML(r.name)}</strong>
 
-</div>
-`;
+            ${
+              r.verified
+              ? '<span class="verified">✔ Verified Purchase</span>'
+              : ''
+            }
 
-});
+          </div>
 
-photoList.slice(0,6).forEach(src => {
+        </div>
 
-gallery.innerHTML += `
-<img src="${src}" class="gallery-img" onclick="openViewer('${src}')">
-`;
+        <div class="rating">${stars}</div>
 
-});
+        <p class="review-date">
+          Reviewed in India on ${formattedDate}
+        </p>
 
-if(photoList.length <= 6){
-document.getElementById("seePhotosBtn").style.display="none";
-}
+        ${
+          r.title
+          ? `<p class="review-title">${escapeHTML(r.title)}</p>`
+          : ""
+        }
 
-window.allPhotos = photoList;
+        <p>${escapeHTML(r.comment)}</p>
+
+        ${media}
+
+      </div>
+    `;
+  });
+
+  photoList.slice(0,6).forEach(src => {
+
+    gallery.innerHTML += `
+      <img src="${src}"
+           class="gallery-img"
+           onclick="openViewer('${src}')">
+    `;
+  });
+
+  const photoBtn =
+    document.getElementById("seePhotosBtn");
+
+  if(photoList.length > 6){
+    photoBtn.style.display = "inline-block";
+  }else{
+    photoBtn.style.display = "none";
+  }
+
+  window.allPhotos = photoList;
 }
 
 loadReviews();
